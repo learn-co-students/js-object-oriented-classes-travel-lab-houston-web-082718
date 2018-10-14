@@ -5,7 +5,7 @@ class Driver {
     }
 
     yearsExperienceFromBeginningOf(endDate) {
-        return endDate - this.startDate.getFullYear(this.startDate);
+        return endDate - this.startDate.getFullYear();
     }
 }
 
@@ -26,10 +26,6 @@ class Route {
     }
 
     estimatedTime(peak = false) {
-        if (peak) {
-            return this.blocksTravelled() / 2;
-        } else {
-            return this.blocksTravelled() / 3;
-        }
+        return peak ? this.blocksTravelled() / 2 : this.blocksTravelled() / 3;
     }
 }
