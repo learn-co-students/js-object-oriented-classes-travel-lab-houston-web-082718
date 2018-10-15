@@ -10,37 +10,35 @@ class Driver {
   }
 }
 
-
-
 class Route {
   constructor(beginningLocation, endingLocation) {
-    this.beginningLocation.horizontal = beginningLocation.horizontal;
-    this.beginningLocation.vertical = beginningLocation.vertical;
+    this.beginningLocation = beginningLocation;
+    this.endingLocation = endingLocation;
+  }
 
-    this.endingLocation.horizontal = endingLocation.horizontal;
-    this.endingLocation.vertical = endingLocation.vertical;
+  aveToInt(ave) {
+    let eastWest = ['1st Avenue', '2nd Avenue', '3rd Avenue', 'Lexington Avenue', 'Park', 'Madison Avenue', '5th Avenue'];
+    return eastWest.indexOf(ave)
   }
 
   blocksTravelled() {
-    let startingStreetBlock = this.beginningLocation.horizontal.match(/\d+/g); 
-    let endingStreetBlock = this.endingLocation.horizontal.match(/\d+/g); 
-    let startingAveBlock = this.beginningLocation.vertical;
-    let endingAveBlock = this.endingLocation.vertical;
+    let streetBlocks =
+    this.beginningLocation.vertical.match(/\d+/g) -
+    this.endingLocation.vertical.match(/\d+/g); 
+
+    let aveBlocks =
+      this.aveToInt(this.beginningLocation.horizontal) - 
+      this.aveToInt(this.endingLocation.horizontal); 
     
-    let eastWest = ['1st Avenue', '2nd Avenue', '3rd Avenue', 'Lexington Avenue', 'Park', 'Madison Avenue', '5th Avenue'];
-    eastWest.forEach(block => {
-      if (block === startingAveBlock) {
-        startingAveBlock = block.indexOf(startingAveBlock)
-      };
-      if (block === endingAveBlock) {
-        endingAveBlock = block.indexOf(startingAveBlock)
-      };
-    });
+    return Math.abs(streetBlocks)+ Math.abs(aveBlocks)
 
-    let streetBlocks = abs(startingStreetBlock[0] - endingStreetBlock[0])
-    let aveBlocks = abs(startingAveBlock - endingAveBlock)
+  }
 
-    return streetBlocks + aveBlocks
-
+  estimatedTime(peakTime) {
+    if (peakTime) {
+      return this.blocksTravelled() / 2;
+    } else {
+      return this.blocksTravelled() / 3;
+    } 
   }
 }
